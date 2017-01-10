@@ -1,14 +1,13 @@
-environment:
-  matrix:
-  - ver: 4
-  - ver: 5
 install:
-- curl -sLo mql.exe https://github.com/EA31337/FX-MT-VM/releases/download/4.x/mql.exe
+- curl -sLo metaeditor.zip https://github.com/EA31337/FX-MT-VM/releases/download/4.x/mt5clwide.png
+- unzip *.zip
 - git clone -q https://github.com/EA31337/EA31337-classes MQL%ver%/include/EA31337-classes
 before_test:
 - # mklink /D "MQL%ver%\include\EA31337-strategies" "%cd%"
 - pwd
-test_script:
-- forfiles /m *.mqh /c "mql /s /mql%ver% @relpath"
+- #ps: chcp 1200
+test:
+- metaeditor /log:CON /compile:fail_test.mqh
+- ps: forfiles /m *.mqh /c "echo @file; metaeditor /s /log:CON /compile:@file"
 build: off
 platform: x86
